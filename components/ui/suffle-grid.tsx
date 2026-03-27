@@ -3,34 +3,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-const ShuffleHero = () => {
-  return (
-   <section className="w-full px-8 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto">
-  <div>
-    <span className="block mb-4 text-xs md:text-sm text-indigo-500 font-medium">
-      Feel the energy. Live the moment.
-    </span>
-
-    <h3 className="text-4xl md:text-6xl font-semibold">
-      Discover events that move you
-    </h3>
-
-    <p className="text-base md:text-lg text-slate-700 my-4 md:my-6">
-      From electrifying concerts to thrilling sports and unforgettable festivals,
-      find the hottest events happening near you. Grab your tickets and be part
-      of the action.
-    </p>
-
-    <button className="bg-indigo-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95">
-      Explore Events
-    </button>
-  </div>
-
-  <ShuffleGrid />
-</section>
-  );
-};
-
 const shuffle = (array: { id: number; src: string }[]) => {
   let currentIndex = array.length,
     randomIndex;
@@ -121,7 +93,7 @@ const generateSquares = () => {
       key={sq.id}
       layout
       transition={{ duration: 1.5, type: "spring" }}
-      className="w-full h-full"
+      className="h-full w-full"
       style={{
         backgroundImage: `url(${sq.src})`,
         backgroundSize: "cover",
@@ -129,35 +101,6 @@ const generateSquares = () => {
     ></motion.div>
   ));
 };
-
-/*
-const ShuffleGrid = () => {
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [squares, setSquares] = useState(generateSquares());
-
-  useEffect(() => {
-    shuffleSquares();
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
-
-  const shuffleSquares = () => {
-    setSquares(generateSquares());
-
-    timeoutRef.current = setTimeout(shuffleSquares, 3000);
-  };
-
-  return (
-    <div className="grid grid-cols-4 grid-rows-4 h-[450px] gap-1">
-      {squares.map((sq) => sq)}
-    </div>
-  );
-};
-*/
 
 const ShuffleGrid = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -167,7 +110,7 @@ const ShuffleGrid = () => {
     squareData.map((sq) => (
       <div
         key={sq.id}
-        className="w-full h-full"
+        className="h-full w-full"
         style={{
           backgroundImage: `url(${sq.src})`,
           backgroundSize: "cover",
@@ -190,10 +133,10 @@ const ShuffleGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-4 grid-rows-4 h-[450px] gap-1">
+    <div className="grid h-[450px] grid-cols-4 grid-rows-4 gap-1">
       {squares}
     </div>
   );
 };
 
-export default ShuffleHero;
+export default ShuffleGrid;

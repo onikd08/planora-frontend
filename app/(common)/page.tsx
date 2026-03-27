@@ -3,6 +3,12 @@ import HeroSection from "./_components/page/home/HeroSection";
 import CallToAction from "./_components/page/home/CallToAction";
 import EventCategory from "./_components/page/home/EventCategory";
 
+export const metadata = {
+  title: "Home | Planora",
+  description:
+    "Planora is a comprehensive event management platform that helps you create, manage, and promote events of all sizes.",
+};
+
 export interface Event {
   id: string;
   title: string;
