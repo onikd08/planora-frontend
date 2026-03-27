@@ -1,7 +1,7 @@
 import ShuffleHero from "@/components/ui/suffle-hero";
 
-const DemoOne = () => {
+const HeroSection = () => {
   return <ShuffleHero />;
 };
 
-export { DemoOne };
+export default HeroSection;

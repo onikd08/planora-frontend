@@ -1,9 +1,9 @@
-import { DemoOne } from "./_components/shared/header/demo";
+import HeroSection from "./_components/header/HeroSection";
 
 const HomePage = () => {
   return (
     <div>
-      <DemoOne />
+      <HeroSection />
     </div>
   );
 };
