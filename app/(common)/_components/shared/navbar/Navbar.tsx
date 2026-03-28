@@ -6,6 +6,7 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
 import Link from "next/link";
 import { Hexagon } from "lucide-react";
+import { ModeToggle } from "./ModeToggle";
 
 export function Navbar() {
   const [open, setOpen] = React.useState(false);
@@ -87,6 +88,7 @@ export function Navbar() {
           <Button asChild>
             <Link href="/dashboard">Dashboard</Link>
           </Button>
+          <ModeToggle />
         </div>
         <Button
           size="icon"
@@ -135,6 +137,7 @@ export function Navbar() {
             <Button asChild className="w-full">
               <Link href="/dashboard">Dashboard</Link>
             </Button>
+            <ModeToggle />
           </div>
         </div>
       </div>
