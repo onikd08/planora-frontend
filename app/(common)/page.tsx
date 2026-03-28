@@ -44,17 +44,20 @@ export interface Event {
 }
 
 const HomePage = async () => {
-  // Good Practice: Fetch independent data streams in parallel using Promise.all to avoid Server-Side Waterfalls!
   const [upcomingRes, featuredRes, categoriesRes] = await Promise.all([
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/events?page=1&limit=9&eventStatus=UPCOMING&sortBy=startTime&sortOrder=asc`),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/events?isFeatured=true&page=1&limit=5`),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/event-categories`)
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/events?page=1&limit=9&eventStatus=UPCOMING&sortBy=startTime&sortOrder=asc`
+    ),
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/events?isFeatured=true&page=1&limit=5`
+    ),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/event-categories`),
   ]);
 
   const [upcomingEvents, featuredEvents, eventCatgories] = await Promise.all([
     upcomingRes.json(),
     featuredRes.json(),
-    categoriesRes.json()
+    categoriesRes.json(),
   ]);
   return (
     <div>
