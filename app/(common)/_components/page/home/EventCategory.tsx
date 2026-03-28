@@ -1,64 +1,26 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Music,
-  Laptop,
-  Trophy,
-  Palette,
-  Coffee,
-  Briefcase,
-  Check,
-} from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Check } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-const categories = [
-  {
-    id: "music",
-    name: "Music",
-    icon: Music,
-    color:
-      "bg-blue-500/10 text-blue-500 ring-blue-500/20 dark:bg-blue-50/10 dark:text-blue-400",
-  },
-  {
-    id: "tech",
-    name: "Tech",
-    icon: Laptop,
-    color:
-      "bg-indigo-500/10 text-indigo-500 ring-indigo-500/20 dark:bg-indigo-50/10 dark:text-indigo-400",
-  },
-  {
-    id: "sports",
-    name: "Sports",
-    icon: Trophy,
-    color:
-      "bg-orange-500/10 text-orange-500 ring-orange-500/20 dark:bg-orange-50/10 dark:text-orange-400",
-  },
-  {
-    id: "arts",
-    name: "Arts",
-    icon: Palette,
-    color:
-      "bg-pink-500/10 text-pink-500 ring-pink-500/20 dark:bg-pink-50/10 dark:text-pink-400",
-  },
-  {
-    id: "food",
-    name: "Food & Drink",
-    icon: Coffee,
-    color:
-      "bg-amber-500/10 text-amber-500 ring-amber-500/20 dark:bg-amber-50/10 dark:text-amber-400",
-  },
-  {
-    id: "business",
-    name: "Business",
-    icon: Briefcase,
-    color:
-      "bg-emerald-500/10 text-emerald-500 ring-emerald-500/20 dark:bg-emerald-50/10 dark:text-emerald-400",
-  },
-];
+interface IEventCategory {
+  id: string;
+  name: string;
+  icon: string;
+}
 
-export default function EventCategory() {
+export default function EventCategory({
+  categories,
+}: {
+  categories: IEventCategory[];
+}) {
   const [filterType, setFilterType] = useState<"all" | "free" | "paid">("all");
-  const [activeCategory, setActiveCategory] = useState<string>("music");
+  const [activeCategory, setActiveCategory] = useState<string>(
+    categories?.length > 0 ? categories[0].id : ""
+  );
 
   return (
     <section className="bg-gray-50/50 py-16 sm:py-24 dark:bg-gray-900/50">
@@ -122,45 +84,64 @@ export default function EventCategory() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {categories.map((category) => {
-            const Icon = category.icon;
-            const isActive = activeCategory === category.id;
+          {categories.length &&
+            categories.map((category) => {
+              const isActive = activeCategory === category.id;
 
-            return (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`group relative flex flex-col items-center gap-4 rounded-3xl p-6 transition-all duration-300 ${
-                  isActive
-                    ? "bg-white shadow-xl ring-2 ring-primary dark:bg-gray-800 dark:ring-primary"
-                    : "bg-white shadow-sm ring-1 ring-gray-100 hover:-translate-y-1 hover:shadow-md dark:bg-gray-800/80 dark:ring-gray-800 dark:hover:bg-gray-800"
-                }`}
-              >
-                {isActive && (
-                  <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow-lg">
-                    <Check size={16} strokeWidth={3} />
-                  </div>
-                )}
-                <div
-                  className={`flex h-16 w-16 items-center justify-center rounded-2xl ring-1 transition-transform group-hover:scale-110 ${category.color}`}
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`group relative flex flex-col items-center gap-4 rounded-3xl p-6 transition-all duration-300 ${
+                    isActive
+                      ? "bg-white shadow-xl ring-2 ring-primary dark:bg-gray-800 dark:ring-primary"
+                      : "bg-white shadow-sm ring-1 ring-gray-100 hover:-translate-y-1 hover:shadow-md dark:bg-gray-800/80 dark:ring-gray-800 dark:hover:bg-gray-800"
+                  }`}
                 >
-                  <Icon size={32} strokeWidth={1.5} />
-                </div>
-                <div className="text-center">
-                  <h3
-                    className={`font-semibold ${
-                      isActive
-                        ? "text-primary dark:text-white"
-                        : "text-gray-900 dark:text-gray-100"
-                    }`}
+                  {isActive && (
+                    <div className="absolute -top-3 -right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow-lg">
+                      <Check size={16} strokeWidth={3} />
+                    </div>
+                  )}
+                  <div
+                    className={`relative flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl ring-1 transition-transform group-hover:scale-110`}
                   >
-                    {category.name}
-                  </h3>
-                </div>
-              </button>
-            );
-          })}
+                    {category.icon && (
+                      <Image
+                        src={category.icon}
+                        alt={category.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="text-center">
+                    <h3
+                      className={`font-semibold ${
+                        isActive
+                          ? "text-primary dark:text-white"
+                          : "text-gray-900 dark:text-gray-100"
+                      }`}
+                    >
+                      {category.name}
+                    </h3>
+                  </div>
+                </button>
+              );
+            })}
         </motion.div>
+        {/* Go to events button */}
+        <Button
+          asChild
+          className="mx-auto mt-12 flex w-1/3 items-center justify-center sm:w-1/4"
+        >
+          <Link
+            href={`/events?categoryId=${activeCategory}&type=${filterType}`}
+          >
+            View Events <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
       </div>
     </section>
   );
