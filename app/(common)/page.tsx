@@ -43,180 +43,31 @@ export interface Event {
   };
 }
 
-const HomePage = () => {
-  const events: Event[] = [
-    {
-      id: "deafa1b1-1589-481a-b440-87d8705c3c17",
-      title: "Automated Postman Event",
-      description: "An event created by the automated postman collection flow",
-      imageURL: null,
-      isDeleted: false,
-      eventStatus: "UPCOMING",
-      startTime: "2026-12-01T10:00:00.794Z",
-      endTime: "2026-12-01T12:00:00.794Z",
-      country: "USA",
-      city: "New York",
-      address: "123 Tech Lane",
-      postalCode: "10001",
-      fee: 50,
-      capacity: 100,
-      categoryId: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-      creatorId: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-      createdAt: "2026-03-26T04:06:18.297Z",
-      updatedAt: "2026-03-26T04:06:18.297Z",
-      category: {
-        id: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-        name: "Music",
-        createdAt: "2026-03-26T04:04:25.804Z",
-        updatedAt: "2026-03-26T04:04:25.804Z",
-      },
-      creator: {
-        id: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-        firstName: "Organizer",
-        lastName: "Test",
-        email: "organizer@email.com",
-        profilePhoto: null,
-      },
-    },
-    {
-      id: "deafa1b1-1589-481a-b440-87d8705c3c178",
-      title: "Automated Postman Event",
-      description: "An event created by the automated postman collection flow",
-      imageURL: null,
-      isDeleted: false,
-      eventStatus: "UPCOMING",
-      startTime: "2026-12-01T10:00:00.794Z",
-      endTime: "2026-12-01T12:00:00.794Z",
-      country: "USA",
-      city: "New York",
-      address: "123 Tech Lane",
-      postalCode: "10001",
-      fee: 50,
-      capacity: 100,
-      categoryId: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-      creatorId: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-      createdAt: "2026-03-26T04:06:18.297Z",
-      updatedAt: "2026-03-26T04:06:18.297Z",
-      category: {
-        id: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-        name: "Music",
-        createdAt: "2026-03-26T04:04:25.804Z",
-        updatedAt: "2026-03-26T04:04:25.804Z",
-      },
-      creator: {
-        id: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-        firstName: "Organizer",
-        lastName: "Test",
-        email: "organizer@email.com",
-        profilePhoto: null,
-      },
-    },
-    {
-      id: "deafa1b1-1589-481a-b440-87d8705c3c179",
-      title: "Automated Postman Event",
-      description: "An event created by the automated postman collection flow",
-      imageURL: null,
-      isDeleted: false,
-      eventStatus: "UPCOMING",
-      startTime: "2026-12-01T10:00:00.794Z",
-      endTime: "2026-12-01T12:00:00.794Z",
-      country: "USA",
-      city: "New York",
-      address: "123 Tech Lane",
-      postalCode: "10001",
-      fee: 50,
-      capacity: 100,
-      categoryId: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-      creatorId: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-      createdAt: "2026-03-26T04:06:18.297Z",
-      updatedAt: "2026-03-26T04:06:18.297Z",
-      category: {
-        id: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-        name: "Music",
-        createdAt: "2026-03-26T04:04:25.804Z",
-        updatedAt: "2026-03-26T04:04:25.804Z",
-      },
-      creator: {
-        id: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-        firstName: "Organizer",
-        lastName: "Test",
-        email: "organizer@email.com",
-        profilePhoto: null,
-      },
-    },
-    {
-      id: "deafa1b1-1589-481a-b440-87d8705c3c171",
-      title: "Automated Postman Event",
-      description: "An event created by the automated postman collection flow",
-      imageURL: null,
-      isDeleted: false,
-      eventStatus: "UPCOMING",
-      startTime: "2026-12-01T10:00:00.794Z",
-      endTime: "2026-12-01T12:00:00.794Z",
-      country: "USA",
-      city: "New York",
-      address: "123 Tech Lane",
-      postalCode: "10001",
-      fee: 50,
-      capacity: 100,
-      categoryId: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-      creatorId: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-      createdAt: "2026-03-26T04:06:18.297Z",
-      updatedAt: "2026-03-26T04:06:18.297Z",
-      category: {
-        id: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-        name: "Music",
-        createdAt: "2026-03-26T04:04:25.804Z",
-        updatedAt: "2026-03-26T04:04:25.804Z",
-      },
-      creator: {
-        id: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-        firstName: "Organizer",
-        lastName: "Test",
-        email: "organizer@email.com",
-        profilePhoto: null,
-      },
-    },
-    {
-      id: "deafa1b1-1589-481a-b440-87d8705c3c172",
-      title: "Automated Postman Event",
-      description: "An event created by the automated postman collection flow",
-      imageURL: null,
-      isDeleted: false,
-      eventStatus: "UPCOMING",
-      startTime: "2026-12-01T10:00:00.794Z",
-      endTime: "2026-12-01T12:00:00.794Z",
-      country: "USA",
-      city: "New York",
-      address: "123 Tech Lane",
-      postalCode: "10001",
-      fee: 50,
-      capacity: 100,
-      categoryId: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-      creatorId: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-      createdAt: "2026-03-26T04:06:18.297Z",
-      updatedAt: "2026-03-26T04:06:18.297Z",
-      category: {
-        id: "20785a81-6e4c-4fd0-a961-f277b1e48049",
-        name: "Music",
-        createdAt: "2026-03-26T04:04:25.804Z",
-        updatedAt: "2026-03-26T04:04:25.804Z",
-      },
-      creator: {
-        id: "05c0bbe6-c1c8-4b25-8f85-dd03d912b757",
-        firstName: "Organizer",
-        lastName: "Test",
-        email: "organizer@email.com",
-        profilePhoto: null,
-      },
-    },
-  ];
+const HomePage = async () => {
+  // Good Practice: Fetch independent data streams in parallel using Promise.all to avoid Server-Side Waterfalls!
+  const [upcomingRes, featuredRes, categoriesRes] = await Promise.all([
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/events?page=1&limit=9&eventStatus=UPCOMING&sortBy=startTime&sortOrder=asc`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/events?isFeatured=true&page=1&limit=5`),
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/event-categories`)
+  ]);
+
+  const [upcomingEvents, featuredEvents, eventCatgories] = await Promise.all([
+    upcomingRes.json(),
+    featuredRes.json(),
+    categoriesRes.json()
+  ]);
   return (
     <div>
       <HeroSection />
-      <EventCategory />
-      <EventSlider events={events} status="Featured" />
-      <EventSlider events={events} status="Upcoming" />
+      <EventCategory categories={eventCatgories?.data || []} />
+      <EventSlider
+        events={featuredEvents?.data?.data || []}
+        status="Featured"
+      />
+      <EventSlider
+        events={upcomingEvents?.data?.data || []}
+        status="Upcoming"
+      />
       <CallToAction />
     </div>
   );
