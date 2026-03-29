@@ -5,14 +5,58 @@ import { motion } from "framer-motion";
 import { Hexagon, Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { z } from "zod";
+import { loginAction } from "@/app/(common)/_actions/auth";
+import { toast } from "sonner";
+
+const loginSchema = z.object({
+  email: z.email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
 const LoginComponent = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {}
+  );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    // Login implementation will go here
+
+    // Validate with Zod
+    const result = loginSchema.safeParse({ email, password });
+
+    if (!result.success) {
+      const newErrors: { email?: string; password?: string } = {};
+      result.error.issues.forEach((issue) => {
+        const path = issue.path[0] as "email" | "password";
+        if (path && !newErrors[path]) {
+          newErrors[path] = issue.message;
+        }
+      });
+      setErrors(newErrors);
+      return;
+    }
+
+    // Clear errors if successful
+    setErrors({});
+
+    setIsLoading(true);
+    try {
+      const res = await loginAction(result.data);
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred during login");
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
@@ -86,13 +130,19 @@ const LoginComponent = () => {
                   </div>
                   <input
                     type="email"
-                    required
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full rounded-xl border-0 bg-gray-50/50 py-2.5 pl-10 text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-primary focus:ring-inset sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-white dark:ring-gray-700"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email)
+                        setErrors((prev) => ({ ...prev, email: undefined }));
+                    }}
+                    className={`block w-full rounded-xl border-0 bg-gray-50/50 py-2.5 pl-10 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-white ${errors.email ? "ring-red-500 focus:ring-red-500 dark:ring-red-500/50" : "ring-gray-300 focus:ring-primary dark:ring-gray-700"}`}
                     placeholder="you@example.com"
                   />
                 </div>
+                {errors.email && (
+                  <p className="mt-1.5 text-xs text-red-500">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -115,13 +165,21 @@ const LoginComponent = () => {
                   </div>
                   <input
                     type="password"
-                    required
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full rounded-xl border-0 bg-gray-50/50 py-2.5 pl-10 text-gray-900 shadow-sm ring-1 ring-gray-300 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-primary focus:ring-inset sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-white dark:ring-gray-700"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (errors.password)
+                        setErrors((prev) => ({ ...prev, password: undefined }));
+                    }}
+                    className={`block w-full rounded-xl border-0 bg-gray-50/50 py-2.5 pl-10 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-white ${errors.password ? "ring-red-500 focus:ring-red-500 dark:ring-red-500/50" : "ring-gray-300 focus:ring-primary dark:ring-gray-700"}`}
                     placeholder="••••••••"
                   />
                 </div>
+                {errors.password && (
+                  <p className="mt-1.5 text-xs text-red-500">
+                    {errors.password}
+                  </p>
+                )}
               </div>
 
               <div className="flex items-center gap-3">
@@ -142,11 +200,12 @@ const LoginComponent = () => {
               <div>
                 <Button
                   type="submit"
+                  disabled={isLoading}
                   className="group flex w-full justify-center gap-2"
                   size="lg"
                 >
-                  Sign in
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  {isLoading ? "Signing in..." : "Sign in"}
+                  {!isLoading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />}
                 </Button>
               </div>
             </form>

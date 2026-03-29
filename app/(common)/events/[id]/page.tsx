@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import {
   Calendar,
   MapPin,
-  Clock,
   Users,
   ArrowLeft,
   Star,
