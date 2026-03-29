@@ -87,7 +87,7 @@ const EventsPage = async ({
   // Fetch categories for the filter dropdown
   const catRes = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/event-categories`,
-    { cache: "no-store", next: { revalidate: 60 } }
+    { next: { revalidate: 60 } }
   ).catch(() => null);
   const catJson = catRes ? await catRes.json() : { data: [] };
   const categories = catJson?.data || [];
@@ -110,7 +110,7 @@ const EventsPage = async ({
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/events?${queryParams.toString()}`,
-    { cache: "no-store" }
+    { next: { revalidate: 3600 } }
   );
   const json = await res.json();
 

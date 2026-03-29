@@ -229,7 +229,7 @@ export function Navbar({ user }: { user?: any }) {
                 </Button>
                 <Button
                   variant="destructive"
-                  className="w-full flex-shrink-0"
+                  className="w-full shrink-0"
                   onClick={() => {
                     setOpen(false);
                     handleLogout();
