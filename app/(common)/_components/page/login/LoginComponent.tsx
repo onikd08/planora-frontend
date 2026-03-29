@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { loginAction } from "@/app/(common)/_actions/auth";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -21,6 +22,7 @@ const LoginComponent = () => {
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {}
   );
+  const router = useRouter();
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -48,6 +50,7 @@ const LoginComponent = () => {
       const res = await loginAction(result.data);
       if (res.success) {
         toast.success(res.message);
+        router.push("/");
       } else {
         toast.error(res.message);
       }
@@ -205,7 +208,9 @@ const LoginComponent = () => {
                   size="lg"
                 >
                   {isLoading ? "Signing in..." : "Sign in"}
-                  {!isLoading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />}
+                  {!isLoading && (
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  )}
                 </Button>
               </div>
             </form>

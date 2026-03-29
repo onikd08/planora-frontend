@@ -1,15 +1,27 @@
+import { cookies } from "next/headers";
 import { Hexagon } from "lucide-react";
 import { Navbar } from "./_components/shared/navbar/Navbar";
 import { Footer } from "./_components/shared/footer/Footer";
 
-export default function CommonLayout({
+export default async function CommonLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const userCookie = cookieStore.get("user");
+  let user = null;
+  if (userCookie) {
+    try {
+      user = JSON.parse(userCookie.value);
+    } catch (e) {
+      console.error("Failed to parse user cookie", e);
+    }
+  }
+
   return (
     <div>
-      <Navbar />
+      <Navbar user={user} />
       {children}
       <Footer
         logo={<Hexagon className="h-10 w-10" />}

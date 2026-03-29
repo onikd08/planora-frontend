@@ -108,3 +108,11 @@ export async function registerAction(payload: RegisterPayload) {
     };
   }
 }
+
+export async function logoutAction() {
+  const cookieOptions = await cookies();
+  cookieOptions.delete("accessToken");
+  cookieOptions.delete("refreshToken");
+  cookieOptions.delete("user");
+  return { success: true, message: "Logged out successfully" };
+}

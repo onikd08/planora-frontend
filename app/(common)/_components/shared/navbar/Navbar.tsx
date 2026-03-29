@@ -5,12 +5,31 @@ import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
 import Link from "next/link";
-import { Hexagon } from "lucide-react";
+import { Hexagon, User } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { logoutAction } from "@/app/(common)/_actions/auth";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-export function Navbar() {
+export function Navbar({ user }: { user?: any }) {
   const [open, setOpen] = React.useState(false);
   const scrolled = useScroll(10);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logoutAction();
+    toast.success("Logged out successfully");
+    router.push("/login");
+    router.refresh();
+  };
 
   const links = [
     {
@@ -79,15 +98,62 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
-          <Button asChild variant="outline">
-            <Link href="/login">Sign In</Link>
-          </Button>
-          <Button asChild variant="outline">
-            <Link href="/register">Register</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/dashboard">Dashboard</Link>
-          </Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-2 rounded-full ring-2 ring-primary/20 transition-all hover:ring-primary/40 focus:ring-primary/60 focus:outline-none">
+                {user.profilePhoto ? (
+                  <img
+                    src={user.profilePhoto}
+                    alt={user.firstName}
+                    className="h-9 w-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <User className="h-5 w-5" />
+                  </div>
+                )}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm leading-none font-medium">
+                      {user.firstName} {user.lastName}
+                    </p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/my-profile" className="w-full cursor-pointer">
+                    My Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard" className="w-full cursor-pointer">
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="w-full cursor-pointer text-red-500 focus:bg-red-500/10 focus:text-red-500"
+                >
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button asChild variant="outline">
+                <Link href="/login">Sign In</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/register">Register</Link>
+              </Button>
+            </>
+          )}
           <ModeToggle />
         </div>
         <Button
@@ -128,15 +194,60 @@ export function Navbar() {
             ))}
           </div>
           <div className="flex flex-col gap-2">
-            <Button asChild variant="outline" className="w-full">
-              <Link href="/login">Sign In</Link>
-            </Button>
-            <Button asChild variant="outline" className="w-full">
-              <Link href="/register">Register</Link>
-            </Button>
-            <Button asChild className="w-full">
-              <Link href="/dashboard">Dashboard</Link>
-            </Button>
+            {user ? (
+              <>
+                <div className="flex items-center gap-3 px-1 py-2">
+                  {user.profilePhoto ? (
+                    <img
+                      src={user.profilePhoto}
+                      alt={user.firstName}
+                      className="h-10 w-10 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <User className="h-5 w-5" />
+                    </div>
+                  )}
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">
+                      {user.firstName} {user.lastName}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {user.email}
+                    </span>
+                  </div>
+                </div>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full justify-start"
+                >
+                  <Link href="/my-profile">My Profile</Link>
+                </Button>
+                <Button asChild className="w-full justify-start">
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <Button
+                  variant="destructive"
+                  className="w-full flex-shrink-0"
+                  onClick={() => {
+                    setOpen(false);
+                    handleLogout();
+                  }}
+                >
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/register">Register</Link>
+                </Button>
+              </>
+            )}
             <ModeToggle />
           </div>
         </div>
