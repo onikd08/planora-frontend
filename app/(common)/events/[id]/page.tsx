@@ -13,6 +13,20 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Pre-render known event pages at build time as Static HTML
+export async function generateStaticParams() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/events?limit=100`
+  );
+  if (!res.ok) return [];
+  const json = await res.json();
+  const events = json.data?.data || [];
+
+  return events.map((event: any) => ({
+    id: event.id,
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -36,7 +50,8 @@ const EventDetailsPage = async ({
   const { id } = await params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/${id}`, {
-    cache: "no-store",
+    // Revalidate the static page every 60 seconds (Incremental Static Regeneration)
+    next: { revalidate: 60 },
   });
 
   if (!res.ok) {

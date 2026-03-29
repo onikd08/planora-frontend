@@ -54,7 +54,7 @@ const HomePage = async () => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/event-categories`),
   ]);
 
-  const [upcomingEvents, featuredEvents, eventCatgories] = await Promise.all([
+  const [upcomingEvents, featuredEvents, eventCategories] = await Promise.all([
     upcomingRes.json(),
     featuredRes.json(),
     categoriesRes.json(),
@@ -62,7 +62,7 @@ const HomePage = async () => {
   return (
     <div>
       <HeroSection />
-      <EventCategory categories={eventCatgories?.data || []} />
+      <EventCategory categories={eventCategories?.data || []} />
       <EventSlider
         events={featuredEvents?.data?.data || []}
         status="Featured"
