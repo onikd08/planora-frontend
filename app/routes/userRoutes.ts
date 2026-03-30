@@ -9,8 +9,8 @@ export const userRoutes: Route[] = [
         title: "Analytics",
       },
       {
-        url: "/dashboard/users",
-        title: "Manage Users",
+        url: "/dashboard/profile",
+        title: "Manage Profile",
       },
       {
         url: "/dashboard/my-events",
