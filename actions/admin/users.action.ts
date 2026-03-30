@@ -12,3 +12,9 @@ export const updateUserStatus = async (id: string) => {
   updateTag("users");
   return result;
 };
+
+export const createAdmin = async (payload: any) => {
+  const result = await UserService.createAdmin(payload);
+  updateTag("users");
+  return result;
+};

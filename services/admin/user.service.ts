@@ -74,7 +74,41 @@ const updateUserStatus = async (userId: string) => {
   }
 };
 
+const createAdmin = async (payload: any) => {
+  const cookieStorage = await cookies();
+  const token = cookieStorage.get("accessToken")?.value;
+
+  try {
+    const res = await fetch(`${API_URL}/users/create-admin`, {
+      method: "POST",
+      headers: {
+        Authorization: token!,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: "Failed to create admin",
+        data: null,
+      };
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Create Admin Exception:", error);
+    return {
+      success: false,
+      message: "Failed to create admin",
+      error: error,
+    };
+  }
+};
+
 export const UserService = {
   getAllUsers,
   updateUserStatus,
+  createAdmin,
 };
