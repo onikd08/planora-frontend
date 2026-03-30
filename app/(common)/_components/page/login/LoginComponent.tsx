@@ -6,9 +6,9 @@ import { Hexagon, Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { loginAction } from "@/app/(common)/_actions/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { loginAction } from "@/actions/auth/auth.action";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),

@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { registerAction } from "@/app/(common)/_actions/auth";
+import { registerAction } from "@/actions/auth/auth.action";
 
 const registerSchema = z
   .object({

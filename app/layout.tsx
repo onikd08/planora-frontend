@@ -1,9 +1,8 @@
 import { Geist, Geist_Mono, Nunito_Sans } from "next/font/google";
 
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
-import { Toaster } from "sonner";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 const nunitoSans = Nunito_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -29,18 +28,13 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
-          <Toaster
-            position="bottom-center"
-            richColors
-            closeButton
-            duration={5000}
-            toastOptions={{
-              className: "rounded-2xl font-sans tracking-tight",
-              style: { padding: "16px" },
-            }}
-          />
         </ThemeProvider>
       </body>
     </html>

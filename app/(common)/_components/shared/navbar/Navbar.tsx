@@ -15,9 +15,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { logoutAction } from "@/app/(common)/_actions/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { logoutAction } from "@/actions/auth/auth.action";
 
 export function Navbar({ user }: { user?: any }) {
   const [open, setOpen] = React.useState(false);

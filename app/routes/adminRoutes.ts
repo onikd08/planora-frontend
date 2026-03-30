@@ -9,15 +9,15 @@ export const adminRoutes: Route[] = [
         title: "Analytics",
       },
       {
-        url: "/admin-dashboard/users",
+        url: "/admin-dashboard/user-management",
         title: "Manage Users",
       },
       {
-        url: "/admin-dashboard/events",
-        title: "All Events",
+        url: "/admin-dashboard/event-management",
+        title: "Manage Events",
       },
       {
-        url: "/admin-dashboard/categories",
+        url: "/admin-dashboard/category-management",
         title: "Manage Categories",
       },
     ],
