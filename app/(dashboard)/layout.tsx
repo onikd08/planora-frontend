@@ -6,6 +6,7 @@ import {
 import { redirect } from "next/navigation";
 import AppSidebar, { Roles } from "@/components/app-sidebar";
 import { getCurrentUser } from "@/actions/auth/auth.action";
+import DashboardHeader from "./@admin/_components/DashboardHeader";
 
 export default async function DashboardLayout({
   children,
@@ -37,7 +38,7 @@ export default async function DashboardLayout({
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
-          <h1>{role} Dashboard</h1>
+          <DashboardHeader role={role} />
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           {role === Roles.ADMIN ? admin : role === Roles.USER ? user : null}
