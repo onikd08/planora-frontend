@@ -18,6 +18,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { logoutAction } from "@/actions/auth/auth.action";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function Navbar({ user }: { user?: any }) {
   const [open, setOpen] = React.useState(false);
@@ -101,17 +102,13 @@ export function Navbar({ user }: { user?: any }) {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-2 rounded-full ring-2 ring-primary/20 transition-all hover:ring-primary/40 focus:ring-primary/60 focus:outline-none">
-                {user.profilePhoto ? (
-                  <img
-                    src={user.profilePhoto}
-                    alt={user.firstName}
-                    className="h-9 w-9 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <User className="h-5 w-5" />
-                  </div>
-                )}
+                <Avatar className="h-9 w-9 border border-border">
+                  <AvatarImage src={user?.profilePhoto} alt={user.firstName} />
+                  <AvatarFallback className="bg-primary/10 text-primary">
+                    {user.firstName[0]}
+                    {user.lastName[0]}
+                  </AvatarFallback>
+                </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>
