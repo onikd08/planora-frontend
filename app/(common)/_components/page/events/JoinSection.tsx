@@ -47,7 +47,8 @@ export function JoinSection({ eventId, fee, isJoined }: JoinSectionProps) {
       }
 
       // 2. Handle Free or Pay Later (Internal Redirect)
-      toast.success(data.message);
+      //console.log(data);
+      //toast.success(data.message);
       router.push("/dashboard/my-participations");
       router.refresh();
     } catch (error: any) {
