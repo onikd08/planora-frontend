@@ -20,6 +20,10 @@ export const userRoutes: Route[] = [
         url: "/dashboard/my-participations",
         title: "My Participations",
       },
+      {
+        url: "/dashboard/create-event",
+        title: "Create Event",
+      },
     ],
   },
 ];
