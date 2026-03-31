@@ -2,6 +2,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 
+export const metadata = {
+  title: "Payment Success",
+  description: "Payment Success",
+};
+
 export default function PaymentSuccessPage() {
   return (
     <div className="flex min-h-[60vh] animate-in flex-col items-center justify-center px-4 text-center duration-500 fade-in zoom-in">
