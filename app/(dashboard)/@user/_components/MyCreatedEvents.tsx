@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Eye, Calendar, Users, MapPin } from "lucide-react";
 import Link from "next/link";
-import { format } from "date-fns"; // Optional: npm install date-fns
+import { format } from "date-fns";
 
 export default async function MyEvents({ events }: { events: any[] }) {
   return (
