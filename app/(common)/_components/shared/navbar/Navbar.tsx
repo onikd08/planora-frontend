@@ -123,7 +123,14 @@ export function Navbar({ user }: { user?: any }) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/my-profile" className="w-full cursor-pointer">
+                  <Link
+                    href={
+                      user.role === "ADMIN"
+                        ? "/admin-dashboard/profile"
+                        : "/dashboard/profile"
+                    }
+                    className="w-full cursor-pointer"
+                  >
                     My Profile
                   </Link>
                 </DropdownMenuItem>
@@ -219,7 +226,15 @@ export function Navbar({ user }: { user?: any }) {
                   variant="outline"
                   className="w-full justify-start"
                 >
-                  <Link href="/my-profile">My Profile</Link>
+                  <Link
+                    href={
+                      user.role === "ADMIN"
+                        ? "/admin-dashboard/profile"
+                        : "/dashboard/profile"
+                    }
+                  >
+                    My Profile
+                  </Link>
                 </Button>
                 <Button asChild className="w-full justify-start">
                   <Link href="/dashboard">Dashboard</Link>
