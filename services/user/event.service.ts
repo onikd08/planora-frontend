@@ -68,7 +68,86 @@ const getMyEvents = async () => {
   }
 };
 
+const joinEvent = async (payload: any, mode: string) => {
+  const cookieStorage = await cookies();
+  const token = cookieStorage.get("accessToken")?.value;
+
+  const endpoint =
+    mode === "immediate"
+      ? `${API_URL}/participations/join`
+      : `${API_URL}/participations/join-with-pay-later`;
+
+  if (!token) {
+    return {
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    };
+  }
+
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: "Failed to join event",
+      };
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return { success: false, message: "Failed to join event" };
+  }
+};
+
+const initiatePayment = async (participationId: string) => {
+  const cookieStorage = await cookies();
+  const token = cookieStorage.get("accessToken")?.value;
+
+  if (!token) {
+    return {
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    };
+  }
+
+  try {
+    const res = await fetch(
+      `${API_URL}/participations/initiate-payment/${participationId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: "Failed to initiate payment",
+      };
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return { success: false, message: "Failed to initiate payment" };
+  }
+};
+
 export const EventService = {
   createEvent,
   getMyEvents,
+  joinEvent,
+  initiatePayment,
 };

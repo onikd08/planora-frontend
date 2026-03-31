@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Ticket, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { PayNowButton } from "./PayNowButton";
 
 export default async function MyParticipations({ participations }: any) {
   return (
@@ -92,12 +93,14 @@ export default async function MyParticipations({ participations }: any) {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost" size="sm" asChild className="gap-2">
-                      <Link href={`/events/${item.event.id}`}>
-                        <ExternalLink className="h-4 w-4" />
-                        Details
-                      </Link>
-                    </Button>
+                    {item.participationStatus === "PENDING" && (
+                      <PayNowButton participationId={item.id} />
+                    )}
+                    {item.participationStatus === "CONFIRMED" && (
+                      <span className="text-sm text-muted-foreground">
+                        Paid via Stripe
+                      </span>
+                    )}
                   </TableCell>
                 </TableRow>
               ))

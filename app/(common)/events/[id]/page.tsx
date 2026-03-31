@@ -11,6 +11,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { JoinSection } from "../../_components/page/events/JoinSection";
 
 // Pre-render known event pages at build time as Static HTML
 export async function generateStaticParams() {
@@ -285,24 +286,13 @@ const EventDetailsPage = async ({
                   </div>
                 </div>
 
-                <Button
-                  size="lg"
-                  className="flex w-full items-center justify-center gap-2 py-6 text-lg font-semibold shadow-xl shadow-primary/25 transition-all hover:shadow-2xl"
-                  disabled={
-                    spotsRemaining <= 0 || event.eventStatus !== "UPCOMING"
-                  }
-                >
-                  {spotsRemaining <= 0 ? (
-                    "Sold Out"
-                  ) : event.eventStatus !== "UPCOMING" ? (
-                    "Event Closed"
-                  ) : (
-                    <>
-                      <UserPlus className="h-5 w-5" />
-                      {isFree ? "RSVP for Free" : "Buy Ticket"}
-                    </>
+                <JoinSection
+                  eventId={event.id}
+                  fee={event.fee}
+                  isJoined={event.eventParticipations?.some(
+                    (p: any) => p.userId === event.creatorId
                   )}
-                </Button>
+                />
 
                 <p className="mt-4 text-center text-xs text-gray-500">
                   Terms and conditions apply. Secure payment.
