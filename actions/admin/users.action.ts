@@ -29,3 +29,8 @@ export const updateProfile = async (payload: IUpdateProfile) => {
   updateTag("profile");
   return result;
 };
+
+export const changePasswordAction = async (payload: any) => {
+  const result = await UserService.changePasswordService(payload);
+  return result;
+};

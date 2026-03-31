@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, Mail, ShieldCheck } from "lucide-react";
 import { ProfileUpdateForm } from "./ProfileUpdateForm";
+import { ChangePasswordForm } from "./ChangePasswordForm";
 
 export default async function UserProfile({ userData }: { userData: any }) {
   const user = userData.data;
@@ -95,6 +96,16 @@ export default async function UserProfile({ userData }: { userData: any }) {
           </Card>
         </div>
       </div>
+
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <CardTitle>Change Password</CardTitle>
+          <CardDescription>Update your password</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChangePasswordForm />
+        </CardContent>
+      </Card>
     </div>
   );
 }

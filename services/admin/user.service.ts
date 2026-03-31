@@ -201,10 +201,43 @@ const updateProfile = async (payload: IUpdateProfile) => {
   }
 };
 
+const changePasswordService = async (payload: any) => {
+  const cookieStorage = await cookies();
+  const token = cookieStorage.get("accessToken")?.value;
+
+  if (!token) {
+    return {
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    };
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/auth/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
+  } catch (error) {
+    console.error("Change Password Exception:", error);
+    return {
+      success: false,
+      message: "Failed to change password",
+      error: error,
+    };
+  }
+};
+
 export const UserService = {
   getAllUsers,
   updateUserStatus,
   createAdmin,
   getProfile,
   updateProfile,
+  changePasswordService,
 };
