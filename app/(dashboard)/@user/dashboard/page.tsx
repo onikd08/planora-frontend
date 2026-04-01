@@ -79,7 +79,7 @@ export default async function UserDashboard() {
         {/* ORGANIZER VIEW */}
         <TabsContent value="organizer" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card className="bg-gradient-to-br from-primary/5 to-transparent">
+            <Card className="bg-linear-to-br from-primary/5 to-transparent">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Users className="h-5 w-5 text-primary" />
