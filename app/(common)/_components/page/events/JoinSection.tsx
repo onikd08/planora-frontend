@@ -7,8 +7,6 @@ import { toast } from "sonner"; // or your toast library
 import { Loader2, CreditCard, Clock } from "lucide-react";
 import { joinEvent } from "@/actions/user/event.action";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 interface JoinSectionProps {
   eventId: string;
   fee: number;
@@ -16,6 +14,7 @@ interface JoinSectionProps {
 }
 
 export function JoinSection({ eventId, fee, isJoined }: JoinSectionProps) {
+  console.log(eventId, fee, isJoined);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -39,6 +38,7 @@ export function JoinSection({ eventId, fee, isJoined }: JoinSectionProps) {
     setLoading(true);
     try {
       const data = await joinEvent({ eventId }, mode);
+      console.log("Response from joinEvent:", data); // Check this in browser console
 
       // 1. Handle Redirect to Stripe (Immediate Payment)
       if (data.data?.paymentURL) {
@@ -47,10 +47,13 @@ export function JoinSection({ eventId, fee, isJoined }: JoinSectionProps) {
       }
 
       // 2. Handle Free or Pay Later (Internal Redirect)
-      //console.log(data);
-      //toast.success(data.message);
-      router.push("/dashboard/my-participations");
-      router.refresh();
+      if (data.success) {
+        toast.success(data.message);
+        router.push("/dashboard/my-participations");
+        router.refresh();
+      } else {
+        toast.error(data.message);
+      }
     } catch (error: any) {
       toast.error(error.message || "Failed to join event");
     } finally {

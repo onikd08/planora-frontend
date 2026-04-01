@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, FormSubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Loader2, CalendarPlus, MapPin, DollarSign, Users } from "lucide-react";
 
@@ -68,7 +68,7 @@ interface Category {
 
 export function CreateEventForm({ categories }: { categories: Category[] }) {
   const form = useForm<CreateEventValues>({
-    resolver: zodResolver(createEventSchema),
+    resolver: zodResolver(createEventSchema) as any,
     defaultValues: {
       title: "",
       description: "",
@@ -87,7 +87,7 @@ export function CreateEventForm({ categories }: { categories: Category[] }) {
 
   const descriptionValue = form.watch("description");
 
-  const onSubmit: FormSubmitHandler<CreateEventValues> = async (data: any) => {
+  const onSubmit: SubmitHandler<CreateEventValues> = async (data) => {
     let payload = {};
     if (data.imageURL === "") {
       const { imageURL, ...rest } = data;
@@ -310,7 +310,11 @@ export function CreateEventForm({ categories }: { categories: Category[] }) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel>Cover Image URL</FieldLabel>
-                  <Input {...field} placeholder="https://unsplash.com..." />
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    placeholder="https://unsplash.com..."
+                  />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}

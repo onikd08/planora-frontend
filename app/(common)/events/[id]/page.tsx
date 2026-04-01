@@ -286,17 +286,29 @@ const EventDetailsPage = async ({
                   </div>
                 </div>
 
-                <JoinSection
-                  eventId={event.id}
-                  fee={event.fee}
-                  isJoined={event.eventParticipations?.some(
-                    (p: any) => p.userId === event.creatorId
-                  )}
-                />
-
-                <p className="mt-4 text-center text-xs text-gray-500">
-                  Terms and conditions apply. Secure payment.
-                </p>
+                {event.eventStatus === "UPCOMING" ? (
+                  <JoinSection
+                    eventId={event.id}
+                    fee={event.fee}
+                    isJoined={event.eventParticipations?.some(
+                      (p: any) =>
+                        p.participationStatus === "CONFIRMED" ||
+                        p.participationStatus === "PENDING"
+                    )}
+                  />
+                ) : event.eventStatus === "ONGOING" ? (
+                  <div className="flex items-center justify-center">
+                    <span className="text-sm text-muted-foreground">
+                      Event is ongoing
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center">
+                    <span className="text-sm text-muted-foreground">
+                      Event has ended
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

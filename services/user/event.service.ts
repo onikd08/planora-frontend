@@ -95,12 +95,6 @@ const joinEvent = async (payload: any, mode: string) => {
       body: JSON.stringify(payload),
     });
 
-    if (!res.ok) {
-      return {
-        success: false,
-        message: "Failed to join event",
-      };
-    }
     const data = await res.json();
     return data;
   } catch (error) {

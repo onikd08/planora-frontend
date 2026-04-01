@@ -22,5 +22,6 @@ export const joinEvent = async (payload: any, mode: string) => {
 
 export const initiatePayment = async (participationId: string) => {
   const result = await EventService.initiatePayment(participationId);
+  updateTag("my-participations");
   return result;
 };

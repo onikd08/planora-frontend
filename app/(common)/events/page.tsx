@@ -10,6 +10,8 @@ export const metadata = {
   description: "Browse all events on Planora based on category and pricing.",
 };
 
+export const dynamic = "force-dynamic";
+
 const getStatusBadge = (status: string) => {
   switch (status) {
     case "ONGOING":

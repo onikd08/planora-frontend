@@ -9,6 +9,9 @@ export const metadata = {
     "Planora is a comprehensive event management platform that helps you create, manage, and promote events of all sizes.",
 };
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+console.log(API_URL);
+
 export interface Event {
   id: string;
   title: string;
@@ -46,12 +49,10 @@ export interface Event {
 const HomePage = async () => {
   const [upcomingRes, featuredRes, categoriesRes] = await Promise.all([
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/events?page=1&limit=9&eventStatus=UPCOMING&sortBy=startTime&sortOrder=asc`
+      `${API_URL}/events?page=1&limit=9&eventStatus=UPCOMING&sortBy=startTime&sortOrder=asc`
     ),
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/events?isFeatured=true&page=1&limit=5`
-    ),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/event-categories`),
+    fetch(`${API_URL}/events?isFeatured=true&page=1&limit=5`),
+    fetch(`${API_URL}/event-categories`),
   ]);
 
   const [upcomingEvents, featuredEvents, eventCategories] = await Promise.all([
