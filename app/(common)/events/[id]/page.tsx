@@ -10,8 +10,9 @@ import {
   UserPlus,
   CheckCircle,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { JoinSection } from "../../_components/page/events/JoinSection";
+import { getProfile } from "@/actions/admin/users.action";
+import { Button } from "@/components/ui/button";
 
 // Pre-render known event pages at build time as Static HTML
 export async function generateStaticParams() {
@@ -51,8 +52,7 @@ const EventDetailsPage = async ({
   const { id } = await params;
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/${id}`, {
-    // Revalidate the static page every 60 seconds (Incremental Static Regeneration)
-    next: { revalidate: 60 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -69,6 +69,15 @@ const EventDetailsPage = async ({
   const isFree = event.fee === 0;
   const spotsFilled = event.eventParticipations?.length || 0;
   const spotsRemaining = event.capacity - spotsFilled;
+
+  const { data: user } = await getProfile();
+
+  const userParticipation = event.eventParticipations?.find(
+    (p: any) => p.userId === user?.id
+  );
+
+  const hasJoined =
+    userParticipation && userParticipation.participationStatus !== "CANCELLED";
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 dark:bg-gray-950">
@@ -287,27 +296,41 @@ const EventDetailsPage = async ({
                   </div>
                 </div>
 
-                {event.eventStatus === "UPCOMING" ? (
-                  <JoinSection
-                    eventId={event.id}
-                    fee={event.fee}
-                    isJoined={event.eventParticipations?.some(
-                      (p: any) =>
-                        p.participationStatus === "CONFIRMED" ||
-                        p.participationStatus === "PENDING"
+                {/* 1. If User is Logged In */}
+                {user?.id ? (
+                  <>
+                    {event.eventStatus === "UPCOMING" ? (
+                      <JoinSection
+                        eventId={event.id}
+                        fee={event.fee}
+                        isJoined={hasJoined}
+                      />
+                    ) : event.eventStatus === "ONGOING" ? (
+                      <div className="flex items-center justify-center rounded-lg border border-dashed bg-muted/50 p-4">
+                        <span className="text-sm font-medium text-muted-foreground italic">
+                          Event is currently ongoing
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center rounded-lg border border-dashed bg-muted/50 p-4">
+                        <span className="text-sm font-medium text-muted-foreground italic">
+                          Event has already ended
+                        </span>
+                      </div>
                     )}
-                  />
-                ) : event.eventStatus === "ONGOING" ? (
-                  <div className="flex items-center justify-center">
-                    <span className="text-sm text-muted-foreground">
-                      Event is ongoing
-                    </span>
-                  </div>
+                  </>
                 ) : (
-                  <div className="flex items-center justify-center">
-                    <span className="text-sm text-muted-foreground">
-                      Event has ended
-                    </span>
+                  /* 2. If User is NOT Logged In (Guest View) */
+                  <div className="space-y-4 rounded-xl border bg-card p-6 text-center shadow-sm">
+                    <div className="space-y-1">
+                      <h3 className="font-bold">Want to join?</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Please log in to your account to reserve your spot.
+                      </p>
+                    </div>
+                    <Button asChild className="w-full">
+                      <Link href="/login">Login to Join</Link>
+                    </Button>
                   </div>
                 )}
               </div>

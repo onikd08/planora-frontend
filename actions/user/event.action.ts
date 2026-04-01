@@ -1,7 +1,7 @@
 "use server";
 
 import { EventService } from "@/services/user/event.service";
-import { updateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 export const createEvent = async (payload: any) => {
   const result = await EventService.createEvent(payload);
@@ -16,7 +16,8 @@ export const getMyEvents = async () => {
 
 export const joinEvent = async (payload: any, mode: string) => {
   const result = await EventService.joinEvent(payload, mode);
-  updateTag("my-participations");
+  revalidatePath(`/events/${payload.eventId}`);
+  revalidatePath("/dashboard/my-participations");
   return result;
 };
 

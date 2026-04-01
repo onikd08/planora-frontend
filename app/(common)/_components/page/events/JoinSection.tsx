@@ -43,6 +43,7 @@ export function JoinSection({ eventId, fee, isJoined }: JoinSectionProps) {
       // 1. Handle Redirect to Stripe (Immediate Payment)
       if (data.data?.paymentURL) {
         window.location.href = data.data.paymentURL;
+        router.refresh();
         return;
       }
 
