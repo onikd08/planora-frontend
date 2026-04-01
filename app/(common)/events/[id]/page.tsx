@@ -16,7 +16,8 @@ import { JoinSection } from "../../_components/page/events/JoinSection";
 // Pre-render known event pages at build time as Static HTML
 export async function generateStaticParams() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/events?limit=100`
+    `${process.env.NEXT_PUBLIC_API_URL}/events?limit=100`,
+    { cache: "no-store" }
   );
   if (!res.ok) return [];
   const json = await res.json();

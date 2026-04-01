@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const getAdminDashboardData = async () => {
+export const getUserDashboardData = async () => {
   const cookieStorage = await cookies();
   const token = cookieStorage.get("accessToken")?.value;
 
@@ -10,7 +10,7 @@ export const getAdminDashboardData = async () => {
     throw new Error("Unauthorized");
   }
   try {
-    const res = await fetch(`${API_URL}/dashboard/admin`, {
+    const res = await fetch(`${API_URL}/dashboard/user`, {
       cache: "no-store",
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export const getAdminDashboardData = async () => {
       },
     });
     if (!res.ok) {
-      throw new Error("Failed to fetch admin dashboard data");
+      throw new Error("Failed to fetch user dashboard data");
     }
     const data = await res.json();
     return data;
@@ -26,7 +26,7 @@ export const getAdminDashboardData = async () => {
     console.log(error);
     return {
       success: false,
-      message: "Failed to fetch admin dashboard data",
+      message: "Failed to fetch user dashboard data",
       error: error,
     };
   }
