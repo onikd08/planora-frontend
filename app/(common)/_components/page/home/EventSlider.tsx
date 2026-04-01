@@ -1,9 +1,15 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+  Clock,
+} from "lucide-react";
 import { Event } from "@/app/(common)/page";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 /*
 Featured: Event title - date - description - Join button
@@ -239,7 +245,11 @@ const EventSlider = ({
                           <span>
                             {new Date(item.startTime).toLocaleDateString(
                               undefined,
-                              { month: "short", day: "numeric", year: "numeric" }
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              }
                             )}
                           </span>
                         </div>
@@ -254,7 +264,7 @@ const EventSlider = ({
                         </div>
                       </div>
 
-                      <h3 className="mb-3 line-clamp-2 text-xl font-bold leading-tight text-gray-900 dark:text-white">
+                      <h3 className="mb-3 line-clamp-2 text-xl leading-tight font-bold text-gray-900 dark:text-white">
                         {item.title}
                       </h3>
 
@@ -284,16 +294,20 @@ const EventSlider = ({
                           <Button
                             className="w-full bg-primary text-white shadow-md transition-transform hover:-translate-y-0.5"
                             size="lg"
+                            asChild
                           >
-                            Join Event
+                            <Link href={`/events/${item.id}`}>Join Event</Link>
                           </Button>
                         ) : (
                           <Button
                             variant="outline"
                             className="w-full border-primary/20 transition-colors hover:bg-primary/5 dark:border-primary/30"
                             size="lg"
+                            asChild
                           >
-                            View Details
+                            <Link href={`/events/${item.id}`}>
+                              View Details
+                            </Link>
                           </Button>
                         )}
                       </div>

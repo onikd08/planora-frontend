@@ -60,7 +60,10 @@ export default function CallToAction() {
             size="lg"
             className="group flex w-full items-center gap-2 rounded-full bg-white px-8 text-primary shadow-xl hover:bg-gray-100 hover:shadow-2xl sm:w-auto"
           >
-            <Link href="/create-event" className="flex items-center gap-2">
+            <Link
+              href="/dashboard/create-event"
+              className="flex items-center gap-2"
+            >
               <PlusCircle
                 className="transition-transform group-hover:rotate-90"
                 size={20}

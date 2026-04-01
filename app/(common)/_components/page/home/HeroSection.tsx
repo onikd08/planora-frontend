@@ -1,4 +1,5 @@
 import ShuffleGrid from "@/components/ui/suffle-grid";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -18,9 +19,12 @@ const HeroSection = () => {
           tickets and be part of the action.
         </p>
 
-        <button className="rounded bg-indigo-500 px-4 py-2 font-medium text-white transition-all hover:bg-indigo-600 active:scale-95">
+        <Link
+          href="/events"
+          className="rounded bg-indigo-500 px-4 py-2 font-medium text-white transition-all hover:bg-indigo-600 active:scale-95"
+        >
           Explore Events
-        </button>
+        </Link>
       </div>
 
       <ShuffleGrid />
