@@ -12,12 +12,11 @@ import { AdminCharts } from "../_components/AdminCharts";
 import { getAdminDashboardDataAction } from "@/actions/admin/dashboard.action";
 
 export const metadata = {
-  title: "Admin Dashboard",
+  title: "Admin | Dashboard",
   description: "Admin Dashboard",
 };
 
 export default async function AdminDashboard() {
-  // Fetch your data from the API
   const result = await getAdminDashboardDataAction();
   const data = result.data || {};
   return (

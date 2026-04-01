@@ -12,8 +12,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getUserDashboardDataAction } from "@/actions/user/dashboard.action";
 
+export const metadata = {
+  title: "User | Dashboard",
+  description: "User Dashboard",
+};
+
 export default async function UserDashboard() {
-  // Replace with your actual API call
   const { data } = (await getUserDashboardDataAction()) || {};
 
   return (
