@@ -2,19 +2,13 @@
 import { IUpdateProfile, UserService } from "@/services/admin/user.service";
 import { updateTag } from "next/cache";
 
-export const getAllUsers = async () => {
-  const result = await UserService.getAllUsers();
+export const getAllUsers = async (role?: string) => {
+  const result = await UserService.getAllUsers(role);
   return result;
 };
 
 export const updateUserStatus = async (id: string) => {
   const result = await UserService.updateUserStatus(id);
-  updateTag("users");
-  return result;
-};
-
-export const createAdmin = async (payload: any) => {
-  const result = await UserService.createAdmin(payload);
   updateTag("users");
   return result;
 };
@@ -32,5 +26,11 @@ export const updateProfile = async (payload: IUpdateProfile) => {
 
 export const changePasswordAction = async (payload: any) => {
   const result = await UserService.changePasswordService(payload);
+  return result;
+};
+
+export const updateUserRole = async (userId: string, role: string) => {
+  const result = await UserService.updateUserRole(userId, role);
+  updateTag("users");
   return result;
 };

@@ -10,10 +10,16 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserStatusAction } from "./UserStatusAction";
 import { getAllUsers } from "@/actions/admin/users.action";
+import { RoleFilter } from "./RoleFilter";
+import { ChangeRoleDialog } from "./ChangeRoleDialogue";
 
-export const UserManagement = async () => {
-  // Replace with your actual API fetch
-  const result = await getAllUsers();
+export const UserManagement = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ role?: string }>;
+}) => {
+  const { role } = await searchParams;
+  const result = await getAllUsers(role);
   const users = result.data;
 
   return (
@@ -22,6 +28,7 @@ export const UserManagement = async () => {
         <h2 className="text-2xl font-bold tracking-tight text-foreground">
           User Management
         </h2>
+        <RoleFilter />
         <Badge variant="outline">{users?.length || 0} Total Users</Badge>
       </div>
 
@@ -68,12 +75,10 @@ export const UserManagement = async () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge
-                      variant="secondary"
-                      className="text-[10px] font-medium uppercase"
-                    >
-                      {user.role}
-                    </Badge>
+                    <ChangeRoleDialog
+                      userId={user.id}
+                      currentRole={user.role}
+                    />
                   </TableCell>
                   <TableCell>
                     <Badge
@@ -98,10 +103,11 @@ export const UserManagement = async () => {
                   <TableCell className="text-sm text-muted-foreground">
                     {user.gender || "N/A"}
                   </TableCell>
-                  <TableCell className="px-6 text-right">
-                    {/* Prevent admins from banning themselves if needed */}
-                    <UserStatusAction userId={user.id} status={user.status} />
-                  </TableCell>
+                  {user.role !== "ADMIN" && (
+                    <TableCell className="px-6 text-right">
+                      <UserStatusAction userId={user.id} status={user.status} />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
           </TableBody>

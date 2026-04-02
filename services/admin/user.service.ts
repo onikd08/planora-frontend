@@ -10,7 +10,12 @@ export interface IUpdateProfile {
   profilePhoto?: string;
 }
 
-const getAllUsers = async () => {
+const getAllUsers = async (role?: string) => {
+  const url = new URL(`${API_URL}/users`);
+  if (role && role !== "ALL") {
+    url.searchParams.append("role", role);
+  }
+
   const cookieStorage = await cookies();
   const token = cookieStorage.get("accessToken")?.value;
 
@@ -23,7 +28,7 @@ const getAllUsers = async () => {
   }
 
   try {
-    const res = await fetch(`${API_URL}/users`, {
+    const res = await fetch(url.toString(), {
       headers: {
         Authorization: token,
       },
@@ -77,39 +82,6 @@ const updateUserStatus = async (userId: string) => {
     return {
       success: false,
       message: "Failed to update user status",
-      error: error,
-    };
-  }
-};
-
-const createAdmin = async (payload: any) => {
-  const cookieStorage = await cookies();
-  const token = cookieStorage.get("accessToken")?.value;
-
-  try {
-    const res = await fetch(`${API_URL}/users/create-admin`, {
-      method: "POST",
-      headers: {
-        Authorization: token!,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      return {
-        success: false,
-        message: "Failed to create admin",
-        data: null,
-      };
-    }
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error("Create Admin Exception:", error);
-    return {
-      success: false,
-      message: "Failed to create admin",
       error: error,
     };
   }
@@ -233,10 +205,36 @@ const changePasswordService = async (payload: any) => {
   }
 };
 
+const updateUserRole = async (userId: string, role: string) => {
+  const cookieStorage = await cookies();
+  const token = cookieStorage.get("accessToken")?.value;
+
+  try {
+    const res = await fetch(`${API_URL}/users/update-role/${userId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: token!,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ role }),
+    });
+
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Update User Role Exception:", error);
+    return {
+      success: false,
+      message: "Failed to update user role",
+      error: error,
+    };
+  }
+};
+
 export const UserService = {
   getAllUsers,
   updateUserStatus,
-  createAdmin,
+  updateUserRole,
   getProfile,
   updateProfile,
   changePasswordService,

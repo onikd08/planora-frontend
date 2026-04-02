@@ -5,8 +5,8 @@ export const metadata = {
   description: "User Management",
 };
 
-const UserManagementPage = () => {
-  return <UserManagement />;
+const UserManagementPage = ({ searchParams }: any) => {
+  return <UserManagement searchParams={searchParams} />;
 };
 
 export default UserManagementPage;
