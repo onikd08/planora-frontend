@@ -50,7 +50,7 @@ const LoginComponent = () => {
       const res = await loginAction(result.data);
       if (res.success) {
         toast.success(res.message);
-        router.push("/");
+        router.push("/dashboard");
       } else {
         toast.error(res.message);
       }
