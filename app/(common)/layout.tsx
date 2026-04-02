@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { Hexagon } from "lucide-react";
 import { Navbar } from "./_components/shared/navbar/Navbar";
 import { Footer } from "./_components/shared/footer/Footer";
+import { jwtDecode } from "jwt-decode";
 
 export default async function CommonLayout({
   children,
@@ -9,13 +10,16 @@ export default async function CommonLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = await cookies();
-  const userCookie = cookieStore.get("user");
+  const accessToken = cookieStore.get("accessToken")?.value;
+
   let user = null;
-  if (userCookie) {
+
+  if (accessToken) {
     try {
-      user = JSON.parse(userCookie.value);
+      // Decode the JWT to get user details (id, email, role, etc.)
+      user = jwtDecode(accessToken);
     } catch (e) {
-      console.error("Failed to parse user cookie", e);
+      console.error("Invalid token:", e);
     }
   }
 

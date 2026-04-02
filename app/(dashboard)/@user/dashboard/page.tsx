@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getUserDashboardDataAction } from "@/actions/user/dashboard.action";
+import { formatCurrency } from "@/app/utils/formatCurrency";
 
 export const metadata = {
   title: "User | Dashboard",
@@ -50,7 +51,7 @@ export default async function UserDashboard() {
         />
         <StatCard
           title="Revenue Generated"
-          value={`$${data.host.revenue}`}
+          value={`${formatCurrency(data.host.revenue)}`}
           icon={DollarSign}
           description="Earnings from ticket sales"
           color="text-emerald-500"
@@ -63,7 +64,7 @@ export default async function UserDashboard() {
         />
         <StatCard
           title="Total Spent"
-          value={`$${data.participant.totalSpent}`}
+          value={`${formatCurrency(data.participant.totalSpent)}`}
           icon={Activity}
           description="Investment in experiences"
         />

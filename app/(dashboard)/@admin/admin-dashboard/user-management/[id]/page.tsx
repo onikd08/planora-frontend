@@ -23,6 +23,11 @@ import { getUserById } from "@/actions/admin/users.action";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  title: "User Details | Planora",
+  description: "User Details | Planora",
+};
+
 export default async function UserDetailsPage({
   params,
 }: {

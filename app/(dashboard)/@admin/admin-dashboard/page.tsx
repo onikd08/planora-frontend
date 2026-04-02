@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AdminCharts } from "../_components/AdminCharts";
 import { getAdminDashboardDataAction } from "@/actions/admin/dashboard.action";
+import { formatCurrency } from "@/app/utils/formatCurrency";
 
 export const metadata = {
   title: "Admin | Dashboard",
@@ -42,7 +43,7 @@ export default async function AdminDashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard
           title="Total Revenue"
-          value={`$${data.revenue.total}`}
+          value={`${formatCurrency(data.revenue.total)}`}
           icon={DollarSign}
           trend={`+${data.revenue.growthPercentage}%`}
           sub="vs last month"
