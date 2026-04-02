@@ -66,7 +66,7 @@ Planora is a modern, full-stack event management platform built using **Next.js 
     ```env
     NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
     # or point to hosted backend
-    # NEXT_PUBLIC_API_URL=https://planora-backend.vercel.app/api/v1
+    # NEXT_PUBLIC_API_URL=https://planora-backend-olive.vercel.app/api/v1
     ```
 
 4.  **Run Development Server**
@@ -82,6 +82,7 @@ Planora is a modern, full-stack event management platform built using **Next.js 
 - `hooks/`: Reusable React Hooks.
 - `lib/`: Utility functions and shared Logic.
 - `services/`: Core logic and data fetching handlers.
+- `utils`: Helper functions for date formatting, etc.
 
 ---
 
