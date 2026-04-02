@@ -46,7 +46,9 @@ export default async function MyParticipations({ participations }: any) {
                 >
                   <TableCell className="py-4">
                     <div className="mb-1 leading-none font-semibold text-foreground">
-                      {item.event.title}
+                      <Link href={`/events/${item.event.id}`}>
+                        {item.event.title}
+                      </Link>
                     </div>
                     <div className="line-clamp-1 max-w-[200px] text-xs text-muted-foreground">
                       {item.event.description}
