@@ -34,3 +34,8 @@ export const updateUserRole = async (userId: string, role: string) => {
   updateTag("users");
   return result;
 };
+
+export const getUserById = async (id: string) => {
+  const result = await UserService.getUserById(id);
+  return result;
+};

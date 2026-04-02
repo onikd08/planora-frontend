@@ -12,6 +12,7 @@ import { UserStatusAction } from "./UserStatusAction";
 import { getAllUsers } from "@/actions/admin/users.action";
 import { RoleFilter } from "./RoleFilter";
 import { ChangeRoleDialog } from "./ChangeRoleDialogue";
+import Link from "next/link";
 
 export const UserManagement = async ({
   searchParams,
@@ -65,9 +66,12 @@ export const UserManagement = async ({
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <span className="font-medium text-foreground">
+                        <Link
+                          href={`/admin-dashboard/user-management/${user.id}`}
+                          className="font-medium text-foreground"
+                        >
                           {user.firstName} {user.lastName}
-                        </span>
+                        </Link>
                         <span className="text-xs text-muted-foreground">
                           {user.email}
                         </span>

@@ -54,6 +54,45 @@ const getAllUsers = async (role?: string) => {
   }
 };
 
+const getUserById = async (id: string) => {
+  const cookieStorage = await cookies();
+  const token = cookieStorage.get("accessToken")?.value;
+
+  if (!token) {
+    return {
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    };
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/users/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+      next: { revalidate: 60, tags: ["users"] },
+    });
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: "Failed to fetch user",
+        data: null,
+      };
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Fetch User Exception:", error);
+    return {
+      success: false,
+      message: "Failed to fetch user",
+      error: error,
+    };
+  }
+};
+
 const updateUserStatus = async (userId: string) => {
   const cookieStorage = await cookies();
   const token = cookieStorage.get("accessToken")?.value;
@@ -233,6 +272,7 @@ const updateUserRole = async (userId: string, role: string) => {
 
 export const UserService = {
   getAllUsers,
+  getUserById,
   updateUserStatus,
   updateUserRole,
   getProfile,
