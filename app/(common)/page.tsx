@@ -5,6 +5,8 @@ import EventCategory from "./_components/page/home/EventCategory";
 import HowItWorksSection from "./_components/page/home/HowItWorksSection";
 import TestimonialSection from "./_components/page/home/TestimonialSection";
 import WhyPlanora from "./_components/page/home/WhyPlanora";
+import EventSliderSkeleton from "./_components/page/home/EventSliderSkeleton";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Home | Planora",
@@ -48,37 +50,39 @@ export interface Event {
 }
 
 const HomePage = async () => {
-  const [upcomingRes, featuredRes, categoriesRes] = await Promise.all([
-    fetch(
-      `${API_URL}/events?page=1&limit=9&eventStatus=UPCOMING&sortBy=startTime&sortOrder=asc`
-    ),
-    fetch(`${API_URL}/events?isFeatured=true&page=1&limit=5`),
-    fetch(`${API_URL}/event-categories`),
-  ]);
+  const categoriesRes = await fetch(`${API_URL}/event-categories`);
+  const eventCategories = await categoriesRes.json();
 
-  const [upcomingEvents, featuredEvents, eventCategories] = await Promise.all([
-    upcomingRes.json(),
-    featuredRes.json(),
-    categoriesRes.json(),
-  ]);
   return (
     <div>
       <HeroSection />
       <EventCategory categories={eventCategories?.data || []} />
       <HowItWorksSection />
-      <EventSlider
-        events={featuredEvents?.data?.data || []}
-        status="Featured"
-      />
-      <EventSlider
-        events={upcomingEvents?.data?.data || []}
-        status="Upcoming"
-      />
+      <Suspense fallback={<EventSliderSkeleton status="Featured" />}>
+        <FeaturedEvents />
+      </Suspense>
+      <Suspense fallback={<EventSliderSkeleton status="Upcoming" />}>
+        <UpcomingEvents />
+      </Suspense>
       <TestimonialSection />
       <CallToAction />
       <WhyPlanora />
     </div>
   );
+};
+
+const FeaturedEvents = async () => {
+  const featuredRes = await fetch(`${API_URL}/events?isFeatured=true&page=1&limit=5`);
+  const featuredEvents = await featuredRes.json();
+  return <EventSlider events={featuredEvents?.data?.data || []} status="Featured" />;
+};
+
+const UpcomingEvents = async () => {
+  const upcomingRes = await fetch(
+    `${API_URL}/events?page=1&limit=9&eventStatus=UPCOMING&sortBy=startTime&sortOrder=asc`
+  );
+  const upcomingEvents = await upcomingRes.json();
+  return <EventSlider events={upcomingEvents?.data?.data || []} status="Upcoming" />;
 };
 
 export default HomePage;
