@@ -64,7 +64,6 @@ export async function loginAction(payload: {
       message: "Login successful",
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       error,
@@ -100,7 +99,6 @@ export async function registerAction(payload: RegisterPayload) {
       message: "Registration successful",
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       error,

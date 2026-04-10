@@ -14,7 +14,6 @@ interface JoinSectionProps {
 }
 
 export function JoinSection({ eventId, fee, isJoined }: JoinSectionProps) {
-  console.log(eventId, fee, isJoined);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -38,7 +37,6 @@ export function JoinSection({ eventId, fee, isJoined }: JoinSectionProps) {
     setLoading(true);
     try {
       const data = await joinEvent({ eventId }, mode);
-      console.log("Response from joinEvent:", data); // Check this in browser console
 
       // 1. Handle Redirect to Stripe (Immediate Payment)
       if (data.data?.paymentURL) {

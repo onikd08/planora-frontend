@@ -35,10 +35,6 @@ const createCategory = async (name: string, icon: string) => {
   const cookieStorage = await cookies();
   const token = cookieStorage.get("accessToken")?.value;
   try {
-    console.log(
-      "Creating category with token:",
-      token ? "Token present" : "Token MISSING"
-    );
     const res = await fetch(`${API_URL}/event-categories`, {
       method: "POST",
       headers: {

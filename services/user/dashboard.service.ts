@@ -23,7 +23,6 @@ export const getUserDashboardData = async () => {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.log(error);
     return {
       success: false,
       message: "Failed to fetch user dashboard data",
