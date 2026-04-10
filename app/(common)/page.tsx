@@ -2,6 +2,9 @@ import EventSlider from "./_components/page/home/EventSlider";
 import HeroSection from "./_components/page/home/HeroSection";
 import CallToAction from "./_components/page/home/CallToAction";
 import EventCategory from "./_components/page/home/EventCategory";
+import HowItWorksSection from "./_components/page/home/HowItWorksSection";
+import TestimonialSection from "./_components/page/home/TestimonialSection";
+import WhyPlanora from "./_components/page/home/WhyPlanora";
 
 export const metadata = {
   title: "Home | Planora",
@@ -10,8 +13,6 @@ export const metadata = {
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log(API_URL);
-
 export interface Event {
   id: string;
   title: string;
@@ -64,6 +65,7 @@ const HomePage = async () => {
     <div>
       <HeroSection />
       <EventCategory categories={eventCategories?.data || []} />
+      <HowItWorksSection />
       <EventSlider
         events={featuredEvents?.data?.data || []}
         status="Featured"
@@ -72,7 +74,9 @@ const HomePage = async () => {
         events={upcomingEvents?.data?.data || []}
         status="Upcoming"
       />
+      <TestimonialSection />
       <CallToAction />
+      <WhyPlanora />
     </div>
   );
 };

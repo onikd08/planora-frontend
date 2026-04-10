@@ -45,6 +45,10 @@ export function Navbar({ user }: { user?: any }) {
       label: "About",
       href: "/about",
     },
+    {
+      label: "Contact",
+      href: "/contact",
+    },
   ];
 
   React.useEffect(() => {
