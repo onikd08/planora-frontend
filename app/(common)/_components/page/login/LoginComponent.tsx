@@ -9,6 +9,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { loginAction } from "@/actions/auth/auth.action";
+import { User, ShieldCheck } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -60,6 +61,23 @@ const LoginComponent = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const fillDemo = (role: "USER" | "ADMIN") => {
+    if (role === "ADMIN") {
+      setEmail("admin@planora.com");
+      setPassword("admin1234");
+      toast.success("Admin credentials applied!", {
+        description: "Viewing as: System Administrator",
+      });
+    } else {
+      setEmail("jane@gmail.com");
+      setPassword("12345678");
+      toast.success("User credentials applied!", {
+        description: "Viewing as: Event Attendee",
+      });
+    }
+    setErrors({});
   };
   return (
     <>
@@ -122,6 +140,36 @@ const LoginComponent = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
+            {/* NEW: Multi-Role Demo Switcher */}
+            <div className="mb-8 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+              <div className="bg-slate-50 px-4 py-2 dark:bg-slate-800/50">
+                <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
+                  Quick Demo Access
+                </span>
+              </div>
+              <div className="flex divide-x divide-slate-100 dark:divide-slate-800">
+                <button
+                  type="button"
+                  onClick={() => fillDemo("USER")}
+                  className="group flex flex-1 flex-col items-center gap-1 py-3 transition-colors hover:bg-primary/5"
+                >
+                  <User className="h-4 w-4 text-slate-400 group-hover:text-primary" />
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    User
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => fillDemo("ADMIN")}
+                  className="group flex flex-1 flex-col items-center gap-1 py-3 transition-colors hover:bg-primary/5"
+                >
+                  <ShieldCheck className="h-4 w-4 text-slate-400 group-hover:text-primary" />
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    Admin
+                  </span>
+                </button>
+              </div>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm leading-6 font-medium text-gray-900 dark:text-gray-200">
