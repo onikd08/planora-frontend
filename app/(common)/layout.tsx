@@ -3,6 +3,7 @@ import { Hexagon } from "lucide-react";
 import { Navbar } from "./_components/shared/navbar/Navbar";
 import { Footer } from "./_components/shared/footer/Footer";
 import { jwtDecode } from "jwt-decode";
+import ChatAssistant from "./_components/shared/chatAssistant/ChatAssistant";
 
 export default async function CommonLayout({
   children,
@@ -27,6 +28,7 @@ export default async function CommonLayout({
     <div>
       <Navbar user={user} />
       {children}
+      <ChatAssistant />
       <Footer
         logo={<Hexagon className="h-10 w-10" />}
         brandName="Planora"
