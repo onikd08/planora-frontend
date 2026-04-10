@@ -13,6 +13,8 @@ import {
 import { JoinSection } from "../../_components/page/events/JoinSection";
 import { getProfile } from "@/actions/admin/users.action";
 import { Button } from "@/components/ui/button";
+import ShareEventButton from "../../_components/page/eventDetails/ShareEventButton";
+import WishlistButton from "../../_components/page/eventDetails/WishListButton";
 
 // Pre-render known event pages at build time as Static HTML
 export async function generateStaticParams() {
@@ -202,6 +204,11 @@ const EventDetailsPage = async ({
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
               <div className="rounded-3xl bg-white p-6 shadow-xl ring-1 ring-gray-100 md:p-8 dark:bg-gray-900 dark:ring-gray-800">
+                {/* Share & Wishlist Buttons */}
+                <div className="mb-6 flex gap-3">
+                  <ShareEventButton title={event.title} />
+                  <WishlistButton eventId={event.id} />
+                </div>
                 <div className="mb-6 border-b border-gray-100 pb-6 dark:border-gray-800">
                   <span className="mb-1 block text-sm font-medium text-gray-500 dark:text-gray-400">
                     Ticket Price
